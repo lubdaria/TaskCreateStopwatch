@@ -3,6 +3,46 @@
 
 let seconds = readSecondsNumber();
 
+function readSecondsNumber(){
+  let seconds = prompt('Enter the number of seconds', 5);
+
+  if(isSecondsNumberIncorrect(seconds)){
+    return readSecondsNumber();
+  }
+  
+  if(seconds.includes(':')){
+    seconds = convertingMinutesToSeconds(seconds);
+  }
+
+  return seconds;
+}
+
+function isSecondsNumberIncorrect(seconds){
+  if(seconds === '' || seconds === ' '){
+    return seconds;
+  }
+}
+
+function convertingMinutesToSeconds(seconds){
+  let numberArray = seconds.split(':');
+
+  if(isNumberArrayIncorrect(numberArray)){
+    return readSecondsNumber();
+  }
+
+  seconds = Number(numberArray[0]) * 60 + Number(numberArray[1]);
+  return seconds;
+}
+
+function isNumberArrayIncorrect(numberArray){
+  let minites = Number(numberArray[0]);
+  let seconds = Number(numberArray[1]);
+
+  if(minites > 60 || seconds > 60 || numberArray[0].length > 2 || numberArray[1].length > 2){
+    return numberArray;
+  }
+}
+
 function findMinutes(seconds){
   
   let remaining = seconds % 60;
@@ -17,7 +57,7 @@ function startCountingSeconds(seconds){
    
     console.log(findMinutes(seconds));
 
-    if(seconds === 0){
+    if(seconds === 0 || seconds === ''){
       clearInterval(timer);
     }
     seconds--;
@@ -26,16 +66,3 @@ function startCountingSeconds(seconds){
 }
 
 startCountingSeconds(seconds);
-
-function readSecondsNumber(){
-  let seconds = Number(prompt('Enter the number of seconds', 5));
-  if(isSecondsNumberCorrect(seconds)){
-    return seconds;
-  }
-  
-  return readSecondsNumber();
-}
-
-function isSecondsNumberCorrect(seconds){
-  return Number(seconds);
-}
